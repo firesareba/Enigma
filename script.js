@@ -2,14 +2,17 @@ const plaintext = document.getElementById("plaintext");
 const ciphertext = document.getElementById("ciphertext");
 const rotors_to_use = document.getElementById("rotor-nums");
 const plugboard_to_use = document.getElementById("plugboard-pairs");
+const plugboard_label = document.getElementById("plugboard-label");
 let rotors_used = [];
 let plugboard_pairs = {}
 
 plugboard_to_use.addEventListener(
     "change", function(event) {
-        plugboard_to_use.value = plugboard_to_use.value.toUpperCase()
+        plugboard_to_use.value = plugboard_to_use.value.toUpperCase();
         plugboard_pairs[plugboard_to_use.value[0]] = plugboard_to_use.value[1];
         plugboard_pairs[plugboard_to_use.value[1]] = plugboard_to_use.value[0];
+        plugboard_to_use.value = "";
+        plugboard_label.innerHTML = JSON.stringify(plugboard_pairs);
   }
 );
 
