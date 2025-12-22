@@ -57,15 +57,41 @@ function encrypt(char){
     if (65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90){
         //rotate rotors
         rotor_pos[rotors_used[0]] = (rotor_pos[rotors_used[0]]+1)%26;
-        for (var i = 0; i<rotors_used.length ; i++){
-            if (String.fromCharCode(rotors_used[i-1]+65) in ROTORS[rotors_used[i-1]['notches']]){
-                rotor_pos[rotors_used[i]] = (rotor_pos[rotors_used[i]]+1)%26;
+        for (var i = 1; i<rotors_used.length ; i++){
+            rotor_num = rotors_used[i]
+            if (String.fromCharCode(rotors_used[i-1]+65) in ROTORS[rotors_used[i-1]]['notches']){
+                rotor_pos[rotor_num] = (rotor_pos[rotor_num]+1)%26;
             }
         }
         //plugboard
         if (char in plugboard_pairs){
             char = plugboard_pairs[char];
         }
+        //rotor scrambler
+        for (var i = 0; i<rotors_used.length ; i++){
+            rotor_num = rotors_used[i]
+            char = ROTORS[rotor_num]['alphabet'][((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26];
+        }
+        //reflector
+        rotor_num = 10;
+        char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26;
+        char = ROTORS[rotor_num]['alphabet'][char];
+        //rotor scrambler(reversed)
+        for (var i = rotors_used.length-1; i>=0 ; i--){
+            rotor_num = rotors_used[i]
+            char = String.fromCharCode(((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26+65);
+            for (var pos = 0; pos < 26; pos++){
+                if (ROTORS[rotor_num]['alphabet'][pos] == char){
+                    char = String.fromCharCode(pos+65);
+                }
+            }
+        }
+        console.log(char)
+        //plugboard
+        if (char in plugboard_pairs){
+            char = plugboard_pairs[char];
+        }
+        console.log(char)
     }
     ciphertext.innerHTML += char;
 }
