@@ -1,12 +1,24 @@
 const plaintext = document.getElementById("plaintext");
 const ciphertext = document.getElementById("ciphertext");
 const rotors_to_use = document.getElementById("rotor-nums");
+const plugboard_to_use = document.getElementById("plugboard-pairs");
 let rotors_used = [];
+let plugboard_pairs = {}
+
+plugboard_to_use.addEventListener(
+    "change", function(event) {
+    plugboard_pairs[plugboard_to_use.value[0]] = plugboard_to_use.value[1];
+    plugboard_pairs[plugboard_to_use.value[1]] = plugboard_to_use.value[0];
+    console.log(plugboard_pairs)
+  }
+);
 
 rotors_to_use.addEventListener(
     "change", function(event) {
         for (const char of rotors_to_use.value){
-            rotors_used.push(parseInt(char))
+            if (char >= '0' && char <= '9'){
+                rotors_used.push(parseInt(char))
+            }
         }
         rotors_to_use.remove()
         document.getElementById("rotor-label").innerHTML = rotors_used
@@ -15,8 +27,10 @@ rotors_to_use.addEventListener(
 
 plaintext.addEventListener(
     "change", function(event) {
-    ciphertext.innerHTML += plaintext.value;
-    plaintext.value = "";
+        for (const char of plaintext.value.toUpperCase()){
+            encrypt(char);
+        }
+        plaintext.value = "";
   }
 );
 
@@ -36,4 +50,11 @@ const ROTORS = [
 
 var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-
+function encrypt(char){
+    if (65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90){
+        ciphertext.innerHTML += char;
+        console.log(char)
+    }else{
+        ciphertext.innerHTML += char;
+    }
+}
