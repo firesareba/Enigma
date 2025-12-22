@@ -7,9 +7,9 @@ let plugboard_pairs = {}
 
 plugboard_to_use.addEventListener(
     "change", function(event) {
-    plugboard_pairs[plugboard_to_use.value[0]] = plugboard_to_use.value[1];
-    plugboard_pairs[plugboard_to_use.value[1]] = plugboard_to_use.value[0];
-    console.log(plugboard_pairs)
+        plugboard_to_use.value = plugboard_to_use.value.toUpperCase()
+        plugboard_pairs[plugboard_to_use.value[0]] = plugboard_to_use.value[1];
+        plugboard_pairs[plugboard_to_use.value[1]] = plugboard_to_use.value[0];
   }
 );
 
@@ -52,9 +52,9 @@ var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 function encrypt(char){
     if (65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90){
-        ciphertext.innerHTML += char;
-        console.log(char)
-    }else{
-        ciphertext.innerHTML += char;
+        if (char in plugboard_pairs){
+            char = plugboard_pairs[char];
+        }
     }
+    ciphertext.innerHTML += char;
 }
