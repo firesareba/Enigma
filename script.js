@@ -55,6 +55,14 @@ var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 function encrypt(char){
     if (65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90){
+        //rotate rotors
+        rotor_pos[rotors_used[0]] = (rotor_pos[rotors_used[0]]+1)%26;
+        for (var i = 0; i<rotors_used.length ; i++){
+            if (String.fromCharCode(rotors_used[i-1]+65) in ROTORS[rotors_used[i-1]['notches']]){
+                rotor_pos[rotors_used[i]] = (rotor_pos[rotors_used[i]]+1)%26;
+            }
+        }
+        //plugboard
         if (char in plugboard_pairs){
             char = plugboard_pairs[char];
         }
