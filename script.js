@@ -53,45 +53,59 @@ const ROTORS = [
 
 var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+function apply_plugboard(char){
+    if (char in plugboard_pairs){
+        char = plugboard_pairs[char];
+    }
+    return char
+}
+
+function rotate_rotors(){
+    rotor_pos[rotors_used[0]] = (rotor_pos[rotors_used[0]]+1)%26;
+    for (var i = 1; i<rotors_used.length ; i++){
+        rotor_num = rotors_used[i]
+        if (String.fromCharCode(rotors_used[i-1]+65) in ROTORS[rotors_used[i-1]]['notches']){
+            rotor_pos[rotor_num] = (rotor_pos[rotor_num]+1)%26;
+        }
+    }
+}
+
+function apply_rotor(rotor_num){
+    shifted_char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26
+    return ROTORS[rotor_num]['alphabet'][shifted_char];
+}
+
+function apply_reversed_rotor(rotor_num){
+    char = String.fromCharCode(((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26+65);
+    for (var pos = 0; pos < 26; pos++){
+        if (ROTORS[rotor_num]['alphabet'][pos] == char){
+            return String.fromCharCode(pos+65);
+        }
+    }
+}
+
 function encrypt(char){
     if (65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90){
-        //rotate rotors
-        rotor_pos[rotors_used[0]] = (rotor_pos[rotors_used[0]]+1)%26;
-        for (var i = 1; i<rotors_used.length ; i++){
-            rotor_num = rotors_used[i]
-            if (String.fromCharCode(rotors_used[i-1]+65) in ROTORS[rotors_used[i-1]]['notches']){
-                rotor_pos[rotor_num] = (rotor_pos[rotor_num]+1)%26;
-            }
-        }
-        //plugboard
-        if (char in plugboard_pairs){
-            char = plugboard_pairs[char];
-        }
+        rotate_rotors();
+
+        char = apply_plugboard(char);
+
         //rotor scrambler
         for (var i = 0; i<rotors_used.length ; i++){
-            rotor_num = rotors_used[i]
-            char = ROTORS[rotor_num]['alphabet'][((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26];
+            rotor_num = rotors_used[i];
+            char = apply_rotor(rotor_num);
         }
+
         //reflector
-        rotor_num = 10;
-        char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26;
-        char = ROTORS[rotor_num]['alphabet'][char];
+        char = apply_rotor(10);
+
         //rotor scrambler(reversed)
         for (var i = rotors_used.length-1; i>=0 ; i--){
-            rotor_num = rotors_used[i]
-            char = String.fromCharCode(((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26+65);
-            for (var pos = 0; pos < 26; pos++){
-                if (ROTORS[rotor_num]['alphabet'][pos] == char){
-                    char = String.fromCharCode(pos+65);
-                }
-            }
+            rotor_num = rotors_used[i];
+            char = apply_reversed_rotor(rotor_num);
         }
-        console.log(char)
-        //plugboard
-        if (char in plugboard_pairs){
-            char = plugboard_pairs[char];
-        }
-        console.log(char)
+
+        char = apply_plugboard(char);
     }
     ciphertext.innerHTML += char;
 }
