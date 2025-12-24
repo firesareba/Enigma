@@ -6,6 +6,11 @@ const plugboard_label = document.getElementById("plugboard-label");
 let rotors_used = [];
 let plugboard_pairs = {}
 
+plugboard_to_use.value = "";
+rotors_to_use.value = "";
+plaintext.value = "";
+ciphertext.value = "";
+
 plugboard_to_use.addEventListener(
     "change", function(event) {
         plugboard_to_use.value = plugboard_to_use.value.toUpperCase();
