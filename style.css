@@ -1,6 +1,8 @@
 body{
     background-color: black;
     color:antiquewhite;
+    display: grid;
+    place-items: center;
 }
 
 input{
@@ -10,14 +12,26 @@ input{
 }
 
 .lampboard{
-    max-width: 50%;
+    display: grid;
+    place-items: center;
 }
 
 .lampboard h1{
-    display: inline-block;
-    font-family: 'Courier New', Courier, monospace;
-    padding: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
     background-color: black;
+    margin: 5px;
+
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+
+    width:20px;
+    height:20px;
+    padding: 10px;
+    border-radius: 50%;
+    border: 2px solid rgb(134, 144, 154);
 }
 
 #ciphertext {
