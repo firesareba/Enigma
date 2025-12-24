@@ -19,3 +19,7 @@ input{
     padding: 10px;
     background-color: black;
 }
+
+#ciphertext {
+    font-family: 'Courier New', Courier, monospace;
+}
