@@ -3,6 +3,10 @@ const ciphertext = document.getElementById("ciphertext");
 const rotors_to_use = document.getElementById("rotor-nums");
 const plugboard_to_use = document.getElementById("plugboard-pairs");
 const plugboard_label = document.getElementById("plugboard-label");
+
+var current_plaintext = "";
+let sleep_time = 100;
+
 let rotors_used = [];
 let plugboard_pairs = {}
 
@@ -34,23 +38,34 @@ rotors_to_use.addEventListener(
 );
 
 plaintext.addEventListener(
-    "change", async function(event) {
-        ciphertext.innerHTML = "";
-        for (const char of plaintext.value.toUpperCase()){
+    "input", async function(event) {
+        if (ciphertext.innerHTML == "Ciphertext:"){
+            ciphertext.innerHTML = "";
+        }
+
+        plaintext.value = plaintext.value.toUpperCase();
+        for (let i = current_plaintext.length; i<plaintext.value.length; i++){
+            const char = plaintext.value[i];
             encrypted_char = encrypt(char);
             ciphertext.innerHTML += encrypted_char;
             if (65 <= encrypted_char.charCodeAt(0) && encrypted_char.charCodeAt(0) <= 90){
                 document.getElementById(encrypted_char).style.backgroundColor = "yellow";
                 document.getElementById(encrypted_char).style.color = "black";
-                await sleep(1000);
+                await sleep(sleep_time);
                 document.getElementById(encrypted_char).style.backgroundColor = "black";
                 document.getElementById(encrypted_char).style.color = "antiquewhite";
             }else{
-                await sleep(1000);
+                await sleep(sleep_time);
             }
         }
+        current_plaintext = plaintext.value;
+    }
+);
+plaintext.addEventListener(
+    "change", function(event) {
         plaintext.value = "";
-  }
+        current_plaintext = "";
+    }
 );
 
 const ROTORS = [
