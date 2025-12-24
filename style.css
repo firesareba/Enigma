@@ -36,4 +36,5 @@ input{
 
 #ciphertext {
     font-family: 'OldNewspaperTypes', sans-serif;
+    place-self: center;
 }
