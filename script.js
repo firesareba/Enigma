@@ -4,7 +4,7 @@ const rotors_to_use = document.getElementById("rotor-nums");
 const plugboard_to_use = document.getElementById("plugboard-pairs");
 const plugboard_label = document.getElementById("plugboard-label");
 
-var current_plaintext = "";
+var handling_active = false;
 let sleep_time = 100;
 
 let rotors_used = [];
@@ -38,33 +38,17 @@ rotors_to_use.addEventListener(
 );
 
 plaintext.addEventListener(
-    "input", async function(event) {
-        if (ciphertext.innerHTML == "Ciphertext:"){
-            ciphertext.innerHTML = "";
-        }
-
+    "input", function(event) {
         plaintext.value = plaintext.value.toUpperCase();
-        for (let i = current_plaintext.length; i<plaintext.value.length; i++){
-            const char = plaintext.value[i];
-            encrypted_char = encrypt(char);
-            ciphertext.innerHTML += encrypted_char;
-            if (65 <= encrypted_char.charCodeAt(0) && encrypted_char.charCodeAt(0) <= 90){
-                document.getElementById(encrypted_char).style.backgroundColor = "yellow";
-                document.getElementById(encrypted_char).style.color = "black";
-                await sleep(sleep_time);
-                document.getElementById(encrypted_char).style.backgroundColor = "black";
-                document.getElementById(encrypted_char).style.color = "antiquewhite";
-            }else{
-                await sleep(sleep_time);
-            }
+        if (!handling_active){
+            handle_input();
         }
-        current_plaintext = plaintext.value;
     }
 );
 plaintext.addEventListener(
     "change", function(event) {
         plaintext.value = "";
-        current_plaintext = "";
+        curr_length = "";
     }
 );
 
@@ -151,3 +135,28 @@ function sleep(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function handle_input(){
+    handling_active = true;
+
+    if (ciphertext.innerHTML == "Ciphertext:"){
+        ciphertext.innerHTML = "";
+    }
+        
+    while (plaintext.value.length >= 1){
+        const char = plaintext.value[0];
+        plaintext.value = plaintext.value.slice(1, plaintext.value.length);
+        encrypted_char = encrypt(char);
+        ciphertext.innerHTML += encrypted_char;
+    
+        if (65 <= encrypted_char.charCodeAt(0) && encrypted_char.charCodeAt(0) <= 90){
+            document.getElementById(encrypted_char).style.backgroundColor = "yellow";
+            document.getElementById(encrypted_char).style.color = "black";
+            await sleep(sleep_time);
+            document.getElementById(encrypted_char).style.backgroundColor = "black";
+            document.getElementById(encrypted_char).style.color = "antiquewhite";
+        }else{
+            await sleep(sleep_time);
+        }
+    }
+    handling_active = false;
+}
