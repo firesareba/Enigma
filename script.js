@@ -43,17 +43,17 @@ plaintext.addEventListener(
 );
 
 const ROTORS = [
-    {'alphabet':'EKMFLGDQVZNTOWYHXUSPAIBRCJ', 'reversed_alphabet':'UWYGADFPVZBECKMTHXSLRINQOJ', 'notches':['Y']},
-    {'alphabet':'AJDKSIRUXBLHWTMCQGZNPYFVOE', 'reversed_alphabet':'AJPCZWRLFBDKOTYUQGENHXMIVS', 'notches':['M']},
-    {'alphabet':'BDFHJLCPRTXVZNYEIWGAKMUSQO', 'reversed_alphabet':'TAGBPCSDQEUFVNZHYIXJWLRKOM', 'notches':['D']},
-    {'alphabet':'ESOVPZJAYQUIRHXLNFTGKDCMWB', 'reversed_alphabet':'HZWVARTNLGUPXQCEJMBSKDYOIF', 'notches':['R']},
-    {'alphabet':'VZBRGITYUPSDNHLXAWMJQOFECK', 'reversed_alphabet':'QCYLXWENFTZOSMVJUDKGIARPHB', 'notches':['H']},
-    {'alphabet':'JPGVOUMFYQBENHZRDKASXLICTW', 'reversed_alphabet':'SKXQLHCNWARVGMEBJPTYFDZUIO', 'notches':['H', 'U']},
-    {'alphabet':'NZJHGRCXMYSWBOUFAIVLPEKQDT', 'reversed_alphabet':'QMGYVPEDRCWTIANUXFKZOSLHJB', 'notches':['H', 'U']},
-    {'alphabet':'FKQHTLXOCBJSPDZRAMEWNIUYGV', 'reversed_alphabet':'QJINSAYDVKBFRUHMCPLEWZTGXO', 'notches':['H', 'U']},
-    {'alphabet':'YRUHQSLDPXNGOKMIEBFZCWVJAT', 'reversed_alphabet':'YRUHQSLDPXNGOKMIEBFZCWVJAT', 'notches':['H', 'U']},
-    {'alphabet':'FVPJIAOYEDRZXWGCTKUQSBNMHL', 'reversed_alphabet':'FVPJIAOYEDRZXWGCTKUQSBNMHL', 'notches':['H', 'U']},
-    {'alphabet':'WDZBIPLTENXGUJQFOSRHMYAKVC', 'reversed_alphabet':'WDZBIPLTENXGUJQFOSRHMYAKVC', 'notches':[]}//Reflection Rotor(doesn't move)
+    {'alphabet':'EKMFLGDQVZNTOWYHXUSPAIBRCJ', 'notches':['Y']},
+    {'alphabet':'AJDKSIRUXBLHWTMCQGZNPYFVOE', 'notches':['M']},
+    {'alphabet':'BDFHJLCPRTXVZNYEIWGAKMUSQO', 'notches':['D']},
+    {'alphabet':'ESOVPZJAYQUIRHXLNFTGKDCMWB', 'notches':['R']},
+    {'alphabet':'VZBRGITYUPSDNHLXAWMJQOFECK', 'notches':['H']},
+    {'alphabet':'JPGVOUMFYQBENHZRDKASXLICTW', 'notches':['H', 'U']},
+    {'alphabet':'NZJHGRCXMYSWBOUFAIVLPEKQDT', 'notches':['H', 'U']},
+    {'alphabet':'FKQHTLXOCBJSPDZRAMEWNIUYGV', 'notches':['H', 'U']},
+    {'alphabet':'YRUHQSLDPXNGOKMIEBFZCWVJAT', 'notches':['H', 'U']},
+    {'alphabet':'FVPJIAOYEDRZXWGCTKUQSBNMHL', 'notches':['H', 'U']},
+    {'alphabet':'WDZBIPLTENXGUJQFOSRHMYAKVC', 'notches':[]}//Reflection Rotor(doesn't move)
 ];
 
 var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -83,8 +83,12 @@ function apply_rotor(rotor_num, char){
 }
 
 function apply_reversed_rotor(rotor_num, char){
-    shifted_char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26;
-    corr_letter = ROTORS[rotor_num]['reversed_alphabet'][shifted_char];
+    shifted_char = String.fromCharCode(((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26+65);
+    for (var i = 0; i<26; i++){
+        if (shifted_char == ROTORS[rotor_num]['alphabet'][i]){
+            corr_letter = String.fromCharCode(i+65);
+        }
+    }
     letter_out = ((corr_letter.charCodeAt(0)-rotor_pos[rotor_num])-65+26)%26;
     return String.fromCharCode(letter_out+65);
 }
