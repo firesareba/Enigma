@@ -2,8 +2,20 @@ body{
     background-color: black;
     color:antiquewhite;
 }
+
 input{
     color:antiquewhite;
     border-color: antiquewhite;
+    background-color: black;
+}
+
+.lampboard{
+    max-width: 50%;
+}
+
+.lampboard h1{
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
     background-color: black;
 }

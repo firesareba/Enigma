@@ -34,9 +34,15 @@ rotors_to_use.addEventListener(
 );
 
 plaintext.addEventListener(
-    "change", function(event) {
+    "change", async function(event) {
         for (const char of plaintext.value.toUpperCase()){
-            encrypt(char);
+            encrypted_char = encrypt(char);
+            ciphertext.innerHTML += encrypted_char;
+            document.getElementById(encrypted_char).style.backgroundColor = "yellow";
+            document.getElementById(encrypted_char).style.color = "black";
+            await sleep(1000);
+            document.getElementById(encrypted_char).style.backgroundColor = "black";
+            document.getElementById(encrypted_char).style.color = "white";
         }
         plaintext.value = "";
   }
@@ -118,5 +124,10 @@ function encrypt(char){
         //plugboard
         char = apply_plugboard(char);
     }
-    ciphertext.innerHTML += char;
+    return char;
 }
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
