@@ -4,6 +4,7 @@ const rotors_to_use = document.getElementById("rotor-nums");
 const plugboard_to_use = document.getElementById("plugboard-pairs");
 const plugboard_label = document.getElementById("plugboard-label");
 
+var i = 0;
 var handling_active = false;
 let sleep_time = 100;
 
@@ -141,10 +142,15 @@ async function handle_input(){
     if (ciphertext.innerHTML == "Ciphertext:"){
         ciphertext.innerHTML = "";
     }
-        
-    while (plaintext.value.length >= 1){
-        const char = plaintext.value[0];
-        plaintext.value = plaintext.value.slice(1, plaintext.value.length);
+
+    if (i > plaintext.value.length){
+        i = 0;
+        ciphertext.innerHTML = "";
+    }
+
+    while (i < plaintext.value.length){
+        const char = plaintext.value[i];
+        i++;
         encrypted_char = encrypt(char);
         ciphertext.innerHTML += encrypted_char;
     
