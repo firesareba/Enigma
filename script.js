@@ -71,13 +71,17 @@ function rotate_rotors(){
 }
 
 function apply_rotor(rotor_num, char){
-    shifted_char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26
-    return ROTORS[rotor_num]['alphabet'][shifted_char];
+    shifted_char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26;
+    corr_letter = ROTORS[rotor_num]['alphabet'][shifted_char];
+    letter_out = ((corr_letter.charCodeAt(0)-rotor_pos[rotor_num])-65+26)%26;
+    return String.fromCharCode(letter_out+65);
 }
 
 function apply_reversed_rotor(rotor_num, char){
-    shifted_char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26
-    return ROTORS[rotor_num]['reversed_alphabet'][shifted_char];
+    shifted_char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26;
+    corr_letter = ROTORS[rotor_num]['reversed_alphabet'][shifted_char];
+    letter_out = ((corr_letter.charCodeAt(0)-rotor_pos[rotor_num])-65+26)%26;
+    return String.fromCharCode(letter_out+65);
 }
 
 function encrypt(char){
@@ -94,7 +98,7 @@ function encrypt(char){
         }
 
         //reflector
-        char = apply_rotor(10, char);
+        char = ROTORS[10]['alphabet'][((char.charCodeAt(0)+rotor_pos[10])-65)%26];
 
         //rotor scrambler(reversed)
         for (var i = rotors_used.length-1; i>=0 ; i--){
