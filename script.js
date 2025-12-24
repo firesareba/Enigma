@@ -71,7 +71,6 @@ function rotate_rotors(){
 }
 
 function apply_rotor(rotor_num, char){
-    console.log(rotor_pos[rotor_num])
     shifted_char = ((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26
     return ROTORS[rotor_num]['alphabet'][shifted_char];
 }
@@ -85,6 +84,7 @@ function encrypt(char){
     if (65 <= char.charCodeAt(0) && char.charCodeAt(0) <= 90){
         rotate_rotors();
 
+        //plugboard
         char = apply_plugboard(char);
 
         //rotor scrambler
@@ -94,7 +94,7 @@ function encrypt(char){
         }
 
         //reflector
-        char = apply_rotor(10);
+        char = apply_rotor(10, char);
 
         //rotor scrambler(reversed)
         for (var i = rotors_used.length-1; i>=0 ; i--){
@@ -102,6 +102,7 @@ function encrypt(char){
             char = apply_reversed_rotor(rotor_num, char);
         }
 
+        //plugboard
         char = apply_plugboard(char);
     }
     ciphertext.innerHTML += char;
