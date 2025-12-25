@@ -1,13 +1,10 @@
-const plaintext = document.getElementById("plaintext");
-const ciphertext = document.getElementById("ciphertext");
-const num_rotors = document.getElementById("num-rotors");
-const choose_rotors = document.getElementById("choose-rotors");
-const plugboard_to_use = document.getElementById("plugboard-pairs");
-const plugboard_label = document.getElementById("plugboard-label");
-
+var p1 = [];
+var p2 = [];
 var idx = 0;
 var handling_active = false;
 let sleep_time = 250;
+var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+let plugboard_pairs = {}
 
 const ROTORS = [
     {'alphabet':'EKMFLGDQVZNTOWYHXUSPAIBRCJ', 'notches':['Y']},
@@ -23,16 +20,33 @@ const ROTORS = [
     {'alphabet':'WDZBIPLTENXGUJQFOSRHMYAKVC', 'notches':[]}//Reflection Rotor(doesn't move)
 ];
 
-var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-let plugboard_pairs = {}
+const plaintext = document.getElementById("plaintext");
+const ciphertext = document.getElementById("ciphertext");
+const num_rotors = document.getElementById("num-rotors");
+const choose_rotors = document.getElementById("choose-rotors");
+const plugboard_wrapper = document.getElementById('plugboard-wrapper');
+const plugboard_canvas =  document.getElementById("canvas");
+const plugboard_canvas_drawable =  plugboard_canvas.getContext("2d");
 
-//Because git pages uses cookies and it's annoying
-plugboard_to_use.value = "";
+//Setup (mainly handling cookies)
+plugboard_canvas_drawable.lineWidth = 5;
+plugboard_canvas_drawable.strokeStyle = "antiquewhite";
 plaintext.value = "";
 choose_rotors.innerHTML = "";
 for (let i=0; i<num_rotors.value; i++){
     choose_rotors.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
 }
+
+
+
+window.addEventListener('load', function(){
+    plugboard_canvas.width = plugboard_wrapper.clientWidth;
+    plugboard_canvas.height = plugboard_wrapper.clientHeight;
+});
+window.addEventListener('resize', function(){
+    plugboard_canvas.width = plugboard_wrapper.clientWidth;
+    plugboard_canvas.height = plugboard_wrapper.clientHeight;
+});
 
 num_rotors.addEventListener(
     "input", function(event) {
@@ -40,16 +54,6 @@ num_rotors.addEventListener(
         for (let i=0; i<num_rotors.value; i++){
             choose_rotors.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
         }
-  }
-);
-
-plugboard_to_use.addEventListener(
-    "change", function(event) {
-        plugboard_to_use.value = plugboard_to_use.value.toUpperCase();
-        plugboard_pairs[plugboard_to_use.value[0]] = plugboard_to_use.value[1];
-        plugboard_pairs[plugboard_to_use.value[1]] = plugboard_to_use.value[0];
-        plugboard_to_use.value = "";
-        plugboard_label.innerHTML = JSON.stringify(plugboard_pairs);
   }
 );
 
@@ -61,6 +65,30 @@ plaintext.addEventListener(
         }
     }
 );
+
+plugboard_canvas.addEventListener('mousedown', function(e) {
+    const rect = plugboard_canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    console.log('Q', letter_pos('Q'))
+    console.log(x, y);
+})
+
+
+function letter_pos(char){
+    const canvas_rect = plugboard_canvas.getBoundingClientRect();
+    const letter_element = document.getElementById(`plug-${char}`);
+    const letter_rect = letter_element.getBoundingClientRect();
+    return [letter_rect.left - canvas_rect.left + (letter_rect.width / 2), letter_rect.top - canvas_rect.top + (letter_rect.height / 2)];
+}
+
+function draw_line(x1, y1, x2, y2) {
+    plugboard_canvas_drawable.beginPath();
+    plugboard_canvas_drawable.moveTo(x1, y1);
+    plugboard_canvas_drawable.lineTo(x2, y2);
+    plugboard_canvas_drawable.stroke();
+}
 
 async function handle_input(){
     handling_active = true;
