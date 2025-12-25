@@ -29,8 +29,6 @@ const plugboard_canvas =  document.getElementById("canvas");
 const plugboard_canvas_drawable =  plugboard_canvas.getContext("2d");
 
 //Setup (mainly handling cookies)
-plugboard_canvas_drawable.lineWidth = 5;
-plugboard_canvas_drawable.strokeStyle = "antiquewhite";
 plaintext.value = "";
 choose_rotors.innerHTML = "";
 for (let i=0; i<num_rotors.value; i++){
@@ -73,10 +71,17 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
     
     for (var i = 65; i <= 90; i++){
         if (distance(String.fromCharCode(i), x, y) <= 25){
-            console.log(String.fromCharCode(i))
+            if (p1.length == 0) {
+                p1 = letter_pos(String.fromCharCode(i));
+            } else {
+                p2 = letter_pos(String.fromCharCode(i));
+                draw_line();
+                p1 = [];
+                p2 = [];
+            }
         }
     }
-})
+});
 
 
 function distance(char, x, y){
@@ -92,6 +97,8 @@ function letter_pos(char){
 
 function draw_line() {
     plugboard_canvas_drawable.beginPath();
+    plugboard_canvas_drawable.lineWidth = 5;
+    plugboard_canvas_drawable.strokeStyle = "antiquewhite";
     plugboard_canvas_drawable.moveTo(p1[0], p1[1]);
     plugboard_canvas_drawable.lineTo(p2[0], p2[1]);
     plugboard_canvas_drawable.stroke();
