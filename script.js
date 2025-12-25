@@ -26,9 +26,14 @@ const ROTORS = [
 var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 let plugboard_pairs = {}
 
+//Because git pages uses cookies and it's annoying
 plugboard_to_use.value = "";
 plaintext.value = "";
 ciphertext.value = "";
+rotors_chooser.innerHTML = "";
+for (let i=0; i<num_rotors.value; i++){
+    rotors_chooser.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
+}
 
 num_rotors.addEventListener(
     "input", function(event) {
