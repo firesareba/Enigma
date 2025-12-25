@@ -7,44 +7,51 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-            <div class="lampboard">
-                <div class="top-row">
-                    <h1 id="Q">Q</h1>
-                    <h1 id="W">W</h1>
-                    <h1 id="E">E</h1>
-                    <h1 id="R">R</h1>
-                    <h1 id="T">T</h1>
-                    <h1 id="Z">Z</h1>
-                    <h1 id="U">U</h1>
-                    <h1 id="I">I</h1>
-                    <h1 id="O">O</h1>
-                </div>
-                <div class="middle-row">
-                    <h1 id="A">A</h1>
-                    <h1 id="S">S</h1>
-                    <h1 id="D">D</h1>
-                    <h1 id="F">F</h1>
-                    <h1 id="G">G</h1>
-                    <h1 id="H">H</h1>
-                    <h1 id="J">J</h1>
-                    <h1 id="K">K</h1>
-                </div>
-                <div class="bottom-row">
-                    <h1 id="P">P</h1>
-                    <h1 id="Y">Y</h1>
-                    <h1 id="X">X</h1>
-                    <h1 id="C">C</h1>
-                    <h1 id="V">V</h1>
-                    <h1 id="B">B</h1>
-                    <h1 id="N">N</h1>
-                    <h1 id="M">M</h1>
-                    <h1 id="L">L</h1>
-                </div>
+        <div class="lampboard">
+            <div class="top-row">
+                <h1 id="Q">Q</h1>
+                <h1 id="W">W</h1>
+                <h1 id="E">E</h1>
+                <h1 id="R">R</h1>
+                <h1 id="T">T</h1>
+                <h1 id="Z">Z</h1>
+                <h1 id="U">U</h1>
+                <h1 id="I">I</h1>
+                <h1 id="O">O</h1>
             </div>
-            <p id="ciphertext">Ciphertext:</p>
-            <p id="plugboard-label">Plugboard pairs: </p><input type="text" id="plugboard-pairs">
-            <p id="rotor-label">Rotors to use: <input type="text" id="rotor-nums"></p>
-            <p>Enter Message Here: <input type="text" id="plaintext"></p>
+            <div class="middle-row">
+                <h1 id="A">A</h1>
+                <h1 id="S">S</h1>
+                <h1 id="D">D</h1>
+                <h1 id="F">F</h1>
+                <h1 id="G">G</h1>
+                <h1 id="H">H</h1>
+                <h1 id="J">J</h1>
+                <h1 id="K">K</h1>
+            </div>
+            <div class="bottom-row">
+                <h1 id="P">P</h1>
+                <h1 id="Y">Y</h1>
+                <h1 id="X">X</h1>
+                <h1 id="C">C</h1>
+                <h1 id="V">V</h1>
+                <h1 id="B">B</h1>
+                <h1 id="N">N</h1>
+                <h1 id="M">M</h1>
+                <h1 id="L">L</h1>
+            </div>
+        </div>
+        <p id="ciphertext">Ciphertext:</p>
+
+        <form id="rotors">
+            <input type="number" id="rotor_num_0" min="0" max="9" value="0">
+            <input type="number" id="rotor_num_1" min="0" max="9" value="1">
+            <input type="number" id="rotor_num_2" min="0" max="9" value="2">
+        </form>
+        <input id="num-rotors" type="range" min="0" max="9" value="3">
+        
+        <p id="plugboard-label">Plugboard pairs: </p><input type="text" id="plugboard-pairs">
+        <p>Enter Message Here: <input type="text" id="plaintext"></p>
     </body>
     <script src="script.js"></script>
 </html>

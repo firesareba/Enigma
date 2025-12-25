@@ -11,6 +11,12 @@ input{
     background-color: black;
 }
 
+input[type="number"]{
+    color:black;
+    border-color: antiquewhite;
+    background-color: antiquewhite;
+}
+
 .lampboard{
     display: grid;
     place-items: center;

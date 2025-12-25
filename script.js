@@ -1,20 +1,43 @@
 const plaintext = document.getElementById("plaintext");
 const ciphertext = document.getElementById("ciphertext");
-const rotors_to_use = document.getElementById("rotor-nums");
+const num_rotors = document.getElementById("num-rotors");
+const rotors_chooser = document.getElementById("rotors");
 const plugboard_to_use = document.getElementById("plugboard-pairs");
 const plugboard_label = document.getElementById("plugboard-label");
 
-var i = 0;
+var idx = 0;
 var handling_active = false;
 let sleep_time = 100;
 
-let rotors_used = [];
+const ROTORS = [
+    {'alphabet':'EKMFLGDQVZNTOWYHXUSPAIBRCJ', 'notches':['Y']},
+    {'alphabet':'AJDKSIRUXBLHWTMCQGZNPYFVOE', 'notches':['M']},
+    {'alphabet':'BDFHJLCPRTXVZNYEIWGAKMUSQO', 'notches':['D']},
+    {'alphabet':'ESOVPZJAYQUIRHXLNFTGKDCMWB', 'notches':['R']},
+    {'alphabet':'VZBRGITYUPSDNHLXAWMJQOFECK', 'notches':['H']},
+    {'alphabet':'JPGVOUMFYQBENHZRDKASXLICTW', 'notches':['H', 'U']},
+    {'alphabet':'NZJHGRCXMYSWBOUFAIVLPEKQDT', 'notches':['H', 'U']},
+    {'alphabet':'FKQHTLXOCBJSPDZRAMEWNIUYGV', 'notches':['H', 'U']},
+    {'alphabet':'YRUHQSLDPXNGOKMIEBFZCWVJAT', 'notches':['H', 'U']},
+    {'alphabet':'FVPJIAOYEDRZXWGCTKUQSBNMHL', 'notches':['H', 'U']},
+    {'alphabet':'WDZBIPLTENXGUJQFOSRHMYAKVC', 'notches':[]}//Reflection Rotor(doesn't move)
+];
+
+var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 let plugboard_pairs = {}
 
 plugboard_to_use.value = "";
-rotors_to_use.value = "";
 plaintext.value = "";
 ciphertext.value = "";
+
+num_rotors.addEventListener(
+    "input", function(event) {
+        rotors_chooser.innerHTML = "";
+        for (let i=0; i<num_rotors.value; i++){
+            rotors_chooser.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
+        }
+  }
+);
 
 plugboard_to_use.addEventListener(
     "change", function(event) {
@@ -23,18 +46,6 @@ plugboard_to_use.addEventListener(
         plugboard_pairs[plugboard_to_use.value[1]] = plugboard_to_use.value[0];
         plugboard_to_use.value = "";
         plugboard_label.innerHTML = JSON.stringify(plugboard_pairs);
-  }
-);
-
-rotors_to_use.addEventListener(
-    "change", function(event) {
-        for (const char of rotors_to_use.value){
-            if (char >= '0' && char <= '9'){
-                rotors_used.push(parseInt(char))
-            }
-        }
-        rotors_to_use.remove()
-        document.getElementById("rotor-label").innerHTML = rotors_used
   }
 );
 
@@ -53,21 +64,41 @@ plaintext.addEventListener(
     }
 );
 
-const ROTORS = [
-    {'alphabet':'EKMFLGDQVZNTOWYHXUSPAIBRCJ', 'notches':['Y']},
-    {'alphabet':'AJDKSIRUXBLHWTMCQGZNPYFVOE', 'notches':['M']},
-    {'alphabet':'BDFHJLCPRTXVZNYEIWGAKMUSQO', 'notches':['D']},
-    {'alphabet':'ESOVPZJAYQUIRHXLNFTGKDCMWB', 'notches':['R']},
-    {'alphabet':'VZBRGITYUPSDNHLXAWMJQOFECK', 'notches':['H']},
-    {'alphabet':'JPGVOUMFYQBENHZRDKASXLICTW', 'notches':['H', 'U']},
-    {'alphabet':'NZJHGRCXMYSWBOUFAIVLPEKQDT', 'notches':['H', 'U']},
-    {'alphabet':'FKQHTLXOCBJSPDZRAMEWNIUYGV', 'notches':['H', 'U']},
-    {'alphabet':'YRUHQSLDPXNGOKMIEBFZCWVJAT', 'notches':['H', 'U']},
-    {'alphabet':'FVPJIAOYEDRZXWGCTKUQSBNMHL', 'notches':['H', 'U']},
-    {'alphabet':'WDZBIPLTENXGUJQFOSRHMYAKVC', 'notches':[]}//Reflection Rotor(doesn't move)
-];
+async function handle_input(){
+    handling_active = true;
 
-var rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    if (ciphertext.innerHTML == "Ciphertext:"){
+        ciphertext.innerHTML = "";
+    }
+
+    if (idx > plaintext.value.length){
+        idx = 0;
+        ciphertext.innerHTML = "";
+    }
+
+    while (idx < plaintext.value.length){
+        const char = plaintext.value[idx];
+        idx++;
+        encrypted_char = encrypt(char);
+        ciphertext.innerHTML += encrypted_char;
+    
+        if (65 <= encrypted_char.charCodeAt(0) && encrypted_char.charCodeAt(0) <= 90){
+            document.getElementById(encrypted_char).style.backgroundColor = "yellow";
+            document.getElementById(encrypted_char).style.color = "black";
+            await sleep(sleep_time);
+            document.getElementById(encrypted_char).style.backgroundColor = "black";
+            document.getElementById(encrypted_char).style.color = "antiquewhite";
+        }else{
+            await sleep(sleep_time);
+        }
+    }
+    handling_active = false;
+}
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
 function apply_plugboard(char){
     if (char in plugboard_pairs){
@@ -76,11 +107,15 @@ function apply_plugboard(char){
     return char
 }
 
+function rotors_used(i){
+    return document.getElementById(`rotor_num_${i}`).value;
+}
+
 function rotate_rotors(){
-    rotor_pos[rotors_used[0]] = (rotor_pos[rotors_used[0]]+1)%26;
-    for (var i = 1; i<rotors_used.length ; i++){
-        rotor_num = rotors_used[i]
-        if (String.fromCharCode(rotors_used[i-1]+65) in ROTORS[rotors_used[i-1]]['notches']){
+    rotor_pos[rotors_used(0)] = (rotor_pos[rotors_used(0)]+1)%26;
+    for (var i = 1; i<num_rotors.value ; i++){
+        rotor_num = rotors_used(i)
+        if (String.fromCharCode(rotors_used(i-1)+65) in ROTORS[rotors_used(i-1)]['notches']){
             rotor_pos[rotor_num] = (rotor_pos[rotor_num]+1)%26;
         }
     }
@@ -112,8 +147,8 @@ function encrypt(char){
         char = apply_plugboard(char);
 
         //rotor scrambler
-        for (var i = 0; i<rotors_used.length ; i++){
-            rotor_num = rotors_used[i];
+        for (var i = 0; i<num_rotors.value ; i++){
+            rotor_num = rotors_used(i);
             char = apply_rotor(rotor_num, char);
         }
 
@@ -121,8 +156,8 @@ function encrypt(char){
         char = ROTORS[10]['alphabet'][((char.charCodeAt(0)+rotor_pos[10])-65)%26];
 
         //rotor scrambler(reversed)
-        for (var i = rotors_used.length-1; i>=0 ; i--){
-            rotor_num = rotors_used[i];
+        for (var i = num_rotors.value-1; i>=0 ; i--){
+            rotor_num = rotors_used(i);
             char = apply_reversed_rotor(rotor_num, char);
         }
 
@@ -132,37 +167,3 @@ function encrypt(char){
     return char;
 }
 
-function sleep(ms){
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function handle_input(){
-    handling_active = true;
-
-    if (ciphertext.innerHTML == "Ciphertext:"){
-        ciphertext.innerHTML = "";
-    }
-
-    if (i > plaintext.value.length){
-        i = 0;
-        ciphertext.innerHTML = "";
-    }
-
-    while (i < plaintext.value.length){
-        const char = plaintext.value[i];
-        i++;
-        encrypted_char = encrypt(char);
-        ciphertext.innerHTML += encrypted_char;
-    
-        if (65 <= encrypted_char.charCodeAt(0) && encrypted_char.charCodeAt(0) <= 90){
-            document.getElementById(encrypted_char).style.backgroundColor = "yellow";
-            document.getElementById(encrypted_char).style.color = "black";
-            await sleep(sleep_time);
-            document.getElementById(encrypted_char).style.backgroundColor = "black";
-            document.getElementById(encrypted_char).style.color = "antiquewhite";
-        }else{
-            await sleep(sleep_time);
-        }
-    }
-    handling_active = false;
-}
