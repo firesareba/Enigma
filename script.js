@@ -1,5 +1,5 @@
-var p1 = [];
-var p2 = [];
+var l1 = [];
+var l2 = [];
 var idx = 0;
 var handling_active = false;
 let sleep_time = 250;
@@ -71,13 +71,16 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
     
     for (var i = 65; i <= 90; i++){
         if (distance(String.fromCharCode(i), x, y) <= 25){
-            if (p1.length == 0) {
-                p1 = letter_pos(String.fromCharCode(i));
+            if (l1.length == 0) {
+                l1 = String.fromCharCode(i);
             } else {
-                p2 = letter_pos(String.fromCharCode(i));
+                l2 = String.fromCharCode(i);
                 draw_line();
-                p1 = [];
-                p2 = [];
+                plugboard_pairs[l1] = l2;
+                plugboard_pairs[l2] = l1;
+                console.log(plugboard_pairs)
+                l1 = [];
+                l2 = [];
             }
         }
     }
@@ -99,8 +102,8 @@ function draw_line() {
     plugboard_canvas_drawable.beginPath();
     plugboard_canvas_drawable.lineWidth = 5;
     plugboard_canvas_drawable.strokeStyle = "antiquewhite";
-    plugboard_canvas_drawable.moveTo(p1[0], p1[1]);
-    plugboard_canvas_drawable.lineTo(p2[0], p2[1]);
+    plugboard_canvas_drawable.moveTo(letter_pos(l1)[0], letter_pos(l1)[1]);
+    plugboard_canvas_drawable.lineTo(letter_pos(l2)[0], letter_pos(l2)[1]);
     plugboard_canvas_drawable.stroke();
 }
 
