@@ -11,12 +11,16 @@ input{
     background-color: black;
 }
 
-input[type="number"]{
+input[type=number]{
     color:black;
     background-color: antiquewhite;
     border-color: antiquewhite;
     padding: 10px;
     margin: 10px;
+}
+
+label {
+    margin-top: 20px;
 }
 
 .lampboard{

@@ -29,7 +29,6 @@ let plugboard_pairs = {}
 //Because git pages uses cookies and it's annoying
 plugboard_to_use.value = "";
 plaintext.value = "";
-ciphertext.value = "";
 rotors_chooser.innerHTML = "";
 for (let i=0; i<num_rotors.value; i++){
     rotors_chooser.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
@@ -72,7 +71,7 @@ plaintext.addEventListener(
 async function handle_input(){
     handling_active = true;
 
-    if (ciphertext.innerHTML == "Ciphertext:"){
+    if (ciphertext.innerHTML == "Ciphertext Shows Up Here"){
         ciphertext.innerHTML = "";
     }
 
@@ -97,7 +96,11 @@ async function handle_input(){
             await sleep(sleep_time);
         }
     }
+
     handling_active = false;
+    if (ciphertext.innerHTML == ""){
+        ciphertext.innerHTML = "Ciphertext Shows Up Here";
+    }
 }
 
 function sleep(ms){
