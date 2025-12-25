@@ -61,12 +61,6 @@ plaintext.addEventListener(
         }
     }
 );
-plaintext.addEventListener(
-    "change", function(event) {
-        plaintext.value = "";
-        ciphertext.innerHTML = "Ciphertext Shows Up Here";
-    }
-);
 
 async function handle_input(){
     handling_active = true;
