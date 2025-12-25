@@ -71,10 +71,17 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    console.log('Q', letter_pos('Q'))
-    console.log(x, y);
+    for (var i = 65; i <= 90; i++){
+        if (distance(String.fromCharCode(i), x, y) <= 25){
+            console.log(String.fromCharCode(i))
+        }
+    }
 })
 
+
+function distance(char, x, y){
+    return ((letter_pos(char)[0]-x)**2 + (letter_pos(char)[1]-y)**2)**0.5;
+}
 
 function letter_pos(char){
     const canvas_rect = plugboard_canvas.getBoundingClientRect();
@@ -83,10 +90,10 @@ function letter_pos(char){
     return [letter_rect.left - canvas_rect.left + (letter_rect.width / 2), letter_rect.top - canvas_rect.top + (letter_rect.height / 2)];
 }
 
-function draw_line(x1, y1, x2, y2) {
+function draw_line() {
     plugboard_canvas_drawable.beginPath();
-    plugboard_canvas_drawable.moveTo(x1, y1);
-    plugboard_canvas_drawable.lineTo(x2, y2);
+    plugboard_canvas_drawable.moveTo(p1[0], p1[1]);
+    plugboard_canvas_drawable.lineTo(p2[0], p2[1]);
     plugboard_canvas_drawable.stroke();
 }
 
