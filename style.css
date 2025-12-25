@@ -13,8 +13,10 @@ input{
 
 input[type="number"]{
     color:black;
-    border-color: antiquewhite;
     background-color: antiquewhite;
+    border-color: antiquewhite;
+    padding: 10px;
+    margin: 10px;
 }
 
 .lampboard{
