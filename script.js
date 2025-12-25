@@ -1,13 +1,13 @@
 const plaintext = document.getElementById("plaintext");
 const ciphertext = document.getElementById("ciphertext");
 const num_rotors = document.getElementById("num-rotors");
-const rotors_form = document.getElementById("rotors-form");
+const choose_rotors = document.getElementById("choose-rotors");
 const plugboard_to_use = document.getElementById("plugboard-pairs");
 const plugboard_label = document.getElementById("plugboard-label");
 
 var idx = 0;
 var handling_active = false;
-let sleep_time = 100;
+let sleep_time = 250;
 
 const ROTORS = [
     {'alphabet':'EKMFLGDQVZNTOWYHXUSPAIBRCJ', 'notches':['Y']},
@@ -29,16 +29,16 @@ let plugboard_pairs = {}
 //Because git pages uses cookies and it's annoying
 plugboard_to_use.value = "";
 plaintext.value = "";
-rotors_form.innerHTML = "";
+choose_rotors.innerHTML = "";
 for (let i=0; i<num_rotors.value; i++){
-    rotors_form.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
+    choose_rotors.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
 }
 
 num_rotors.addEventListener(
     "input", function(event) {
-        rotors_form.innerHTML = "";
+        choose_rotors.innerHTML = "";
         for (let i=0; i<num_rotors.value; i++){
-            rotors_form.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
+            choose_rotors.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
         }
   }
 );

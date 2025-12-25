@@ -3,6 +3,7 @@ body{
     color:antiquewhite;
     display: grid;
     place-items: center;
+    font-size: 20px;
 }
 
 input{
