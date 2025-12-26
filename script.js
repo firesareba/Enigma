@@ -31,6 +31,7 @@ const plugboard_canvas_drawable =  plugboard_canvas.getContext("2d");
 //Setup (mainly handling cookies)
 plaintext.value = "";
 choose_rotors.innerHTML = "";
+num_rotors.value = 3;
 for (let i=0; i<num_rotors.value; i++){
     choose_rotors.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
 }
