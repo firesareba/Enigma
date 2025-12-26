@@ -7,90 +7,95 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div class="lampboard board">
-            <div class="top-row">
-                <h1 id="Q">Q</h1>
-                <h1 id="W">W</h1>
-                <h1 id="E">E</h1>
-                <h1 id="R">R</h1>
-                <h1 id="T">T</h1>
-                <h1 id="Z">Z</h1>
-                <h1 id="U">U</h1>
-                <h1 id="I">I</h1>
-                <h1 id="O">O</h1>
-            </div>
-            <div class="middle-row">
-                <h1 id="A">A</h1>
-                <h1 id="S">S</h1>
-                <h1 id="D">D</h1>
-                <h1 id="F">F</h1>
-                <h1 id="G">G</h1>
-                <h1 id="H">H</h1>
-                <h1 id="J">J</h1>
-                <h1 id="K">K</h1>
-            </div>
-            <div class="bottom-row">
-                <h1 id="P">P</h1>
-                <h1 id="Y">Y</h1>
-                <h1 id="X">X</h1>
-                <h1 id="C">C</h1>
-                <h1 id="V">V</h1>
-                <h1 id="B">B</h1>
-                <h1 id="N">N</h1>
-                <h1 id="M">M</h1>
-                <h1 id="L">L</h1>
-            </div>
-        </div>
-        <p id="ciphertext">Ciphertext Shows Up Here</p>
-
-        <div id="choose-rotors">
-            <input type="number" id="rotor_num_0" min="0" max="9" value="0">
-            <input type="number" id="rotor_num_1" min="0" max="9" value="1">
-            <input type="number" id="rotor_num_2" min="0" max="9" value="2">
-        </div>
-        <label>Number of Rotors</label>
-        <input id="num-rotors" type="range" min="0" max="10" value="3">
-        
-        <label id="plugboard-label">Plugboard</label>
-        <div id="plugboard-wrapper">
-            <div class="plugboard board">
+        <div class="main">
+            <div class="lampboard board">
                 <div class="top-row">
-                    <h1 id="plug-Q">Q</h1>
-                    <h1 id="plug-W">W</h1>
-                    <h1 id="plug-E">E</h1>
-                    <h1 id="plug-R">R</h1>
-                    <h1 id="plug-T">T</h1>
-                    <h1 id="plug-Z">Z</h1>
-                    <h1 id="plug-U">U</h1>
-                    <h1 id="plug-I">I</h1>
-                    <h1 id="plug-O">O</h1>
+                    <h1 id="Q">Q</h1>
+                    <h1 id="W">W</h1>
+                    <h1 id="E">E</h1>
+                    <h1 id="R">R</h1>
+                    <h1 id="T">T</h1>
+                    <h1 id="Z">Z</h1>
+                    <h1 id="U">U</h1>
+                    <h1 id="I">I</h1>
+                    <h1 id="O">O</h1>
                 </div>
                 <div class="middle-row">
-                    <h1 id="plug-A">A</h1>
-                    <h1 id="plug-S">S</h1>
-                    <h1 id="plug-D">D</h1>
-                    <h1 id="plug-F">F</h1>
-                    <h1 id="plug-G">G</h1>
-                    <h1 id="plug-H">H</h1>
-                    <h1 id="plug-J">J</h1>
-                    <h1 id="plug-K">K</h1>
+                    <h1 id="A">A</h1>
+                    <h1 id="S">S</h1>
+                    <h1 id="D">D</h1>
+                    <h1 id="F">F</h1>
+                    <h1 id="G">G</h1>
+                    <h1 id="H">H</h1>
+                    <h1 id="J">J</h1>
+                    <h1 id="K">K</h1>
                 </div>
                 <div class="bottom-row">
-                    <h1 id="plug-P">P</h1>
-                    <h1 id="plug-Y">Y</h1>
-                    <h1 id="plug-X">X</h1>
-                    <h1 id="plug-C">C</h1>
-                    <h1 id="plug-V">V</h1>
-                    <h1 id="plug-B">B</h1>
-                    <h1 id="plug-N">N</h1>
-                    <h1 id="plug-M">M</h1>
-                    <h1 id="plug-L">L</h1>
+                    <h1 id="P">P</h1>
+                    <h1 id="Y">Y</h1>
+                    <h1 id="X">X</h1>
+                    <h1 id="C">C</h1>
+                    <h1 id="V">V</h1>
+                    <h1 id="B">B</h1>
+                    <h1 id="N">N</h1>
+                    <h1 id="M">M</h1>
+                    <h1 id="L">L</h1>
                 </div>
             </div>
-            <canvas class="plugboard" id="canvas"></canvas>
+            <p id="ciphertext">Ciphertext Shows Up Here</p>
+    
+            <div id="choose-rotors">
+                <input type="number" id="rotor_num_0" min="0" max="9" value="0">
+                <input type="number" id="rotor_num_1" min="0" max="9" value="1">
+                <input type="number" id="rotor_num_2" min="0" max="9" value="2">
+            </div>
+            <label>Number of Rotors</label>
+            <input id="num-rotors" type="range" min="0" max="10" value="3">
+            
+            <label id="plugboard-label">Plugboard</label>
+            <div id="plugboard-wrapper">
+                <div class="plugboard board">
+                    <div class="top-row">
+                        <h1 id="plug-Q">Q</h1>
+                        <h1 id="plug-W">W</h1>
+                        <h1 id="plug-E">E</h1>
+                        <h1 id="plug-R">R</h1>
+                        <h1 id="plug-T">T</h1>
+                        <h1 id="plug-Z">Z</h1>
+                        <h1 id="plug-U">U</h1>
+                        <h1 id="plug-I">I</h1>
+                        <h1 id="plug-O">O</h1>
+                    </div>
+                    <div class="middle-row">
+                        <h1 id="plug-A">A</h1>
+                        <h1 id="plug-S">S</h1>
+                        <h1 id="plug-D">D</h1>
+                        <h1 id="plug-F">F</h1>
+                        <h1 id="plug-G">G</h1>
+                        <h1 id="plug-H">H</h1>
+                        <h1 id="plug-J">J</h1>
+                        <h1 id="plug-K">K</h1>
+                    </div>
+                    <div class="bottom-row">
+                        <h1 id="plug-P">P</h1>
+                        <h1 id="plug-Y">Y</h1>
+                        <h1 id="plug-X">X</h1>
+                        <h1 id="plug-C">C</h1>
+                        <h1 id="plug-V">V</h1>
+                        <h1 id="plug-B">B</h1>
+                        <h1 id="plug-N">N</h1>
+                        <h1 id="plug-M">M</h1>
+                        <h1 id="plug-L">L</h1>
+                    </div>
+                </div>
+                <canvas class="plugboard" id="canvas"></canvas>
+            </div>
+    
+            <p>Enter Message Here: <input type="text" id="plaintext"></p>
         </div>
-
-        <p>Enter Message Here: <input type="text" id="plaintext"></p>
+        <footer>
+            *Instructions for use on the <a href="./instuctions.html">Instructions Page</a>
+        </footer>
     </body>
     <script src="script.js"></script>
 </html>

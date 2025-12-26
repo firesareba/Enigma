@@ -83,17 +83,23 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
                     char_element.style.color = "black";
                 }
             } else {
-                if (char_element.style.backgroundColor == "antiquewhite"){
-                    delete_pair(char);
+                if (char == l1){
+                    char_element.style.backgroundColor = "black";
+                    char_element.style.color = "antiquewhite";
+                    l1 = [];
+                } else {
+                    if (char_element.style.backgroundColor == "antiquewhite"){
+                        delete_pair(char);
+                    }
+                    l2 = char;
+                    char_element.style.backgroundColor = "antiquewhite";
+                    char_element.style.color = "black";
+                    draw_line(l1, l2);
+                    plugboard_pairs[l1] = l2;
+                    plugboard_pairs[l2] = l1;
+                    l1 = [];
+                    l2 = [];
                 }
-                l2 = char;
-                char_element.style.backgroundColor = "antiquewhite";
-                char_element.style.color = "black";
-                draw_line(l1, l2);
-                plugboard_pairs[l1] = l2;
-                plugboard_pairs[l2] = l1;
-                l1 = [];
-                l2 = [];
             }
         }
     }
