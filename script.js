@@ -70,15 +70,27 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
     const y = e.clientY - rect.top;
     
     for (var i = 65; i <= 90; i++){
-        if (distance(String.fromCharCode(i), x, y) <= 25){
+        char = String.fromCharCode(i);
+        if (distance(char, x, y) <= 25){
+            char_element = document.getElementById(`plug-${char}`);
             if (l1.length == 0) {
-                l1 = String.fromCharCode(i);
+                if (char_element.style.backgroundColor == "antiquewhite"){
+                    delete_pair(char);
+                } else {
+                    l1 = char;
+                    char_element.style.backgroundColor = "antiquewhite";
+                    char_element.style.color = "black";
+                }
             } else {
-                l2 = String.fromCharCode(i);
-                draw_line();
+                if (char_element.style.backgroundColor == "antiquewhite"){
+                    delete_pair(char);
+                }
+                l2 = char;
+                char_element.style.backgroundColor = "antiquewhite";
+                char_element.style.color = "black";
+                draw_line(l1, l2);
                 plugboard_pairs[l1] = l2;
                 plugboard_pairs[l2] = l1;
-                console.log(plugboard_pairs)
                 l1 = [];
                 l2 = [];
             }
@@ -98,13 +110,34 @@ function letter_pos(char){
     return [letter_rect.left - canvas_rect.left + (letter_rect.width / 2), letter_rect.top - canvas_rect.top + (letter_rect.height / 2)];
 }
 
-function draw_line() {
+function draw_line(letter1, letter2) {
     plugboard_canvas_drawable.beginPath();
     plugboard_canvas_drawable.lineWidth = 5;
     plugboard_canvas_drawable.strokeStyle = "antiquewhite";
-    plugboard_canvas_drawable.moveTo(letter_pos(l1)[0], letter_pos(l1)[1]);
-    plugboard_canvas_drawable.lineTo(letter_pos(l2)[0], letter_pos(l2)[1]);
+    plugboard_canvas_drawable.moveTo(letter_pos(letter1)[0], letter_pos(letter1)[1]);
+    plugboard_canvas_drawable.lineTo(letter_pos(letter2)[0], letter_pos(letter2)[1]);
     plugboard_canvas_drawable.stroke();
+}
+
+function delete_pair(char){
+    char_element = document.getElementById(`plug-${char}`);
+    char_element.style.backgroundColor = "black";
+    char_element.style.color = "antiquewhite";
+
+    paired_char_element = document.getElementById(`plug-${plugboard_pairs[char]}`);
+    paired_char_element.style.backgroundColor = "black";
+    paired_char_element.style.color = "antiquewhite";
+
+    delete plugboard_pairs[plugboard_pairs[char]];
+    delete plugboard_pairs[char];
+
+    plugboard_canvas_drawable.clearRect(0, 0, plugboard_canvas.width, plugboard_canvas.height);
+    for (var i = 65; i <= 90; i++){
+        char = String.fromCharCode(i);
+        if (char in plugboard_pairs){
+            draw_line(char, plugboard_pairs[char]);
+        }
+    }
 }
 
 async function handle_input(){
