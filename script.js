@@ -74,8 +74,8 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
         char = String.fromCharCode(i);
         if (distance(char, x, y) <= 25){
             char_element = document.getElementById(`plug-${char}`);
-            if (l1.length == 0) {
-                if (char_element.style.backgroundColor == "antiquewhite"){
+            if (l1.length === 0) {
+                if (char_element.style.backgroundColor === "antiquewhite"){
                     delete_pair(char);
                 } else {
                     l1 = char;
@@ -83,12 +83,12 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
                     char_element.style.color = "black";
                 }
             } else {
-                if (char == l1){
+                if (char === l1){
                     char_element.style.backgroundColor = "black";
                     char_element.style.color = "antiquewhite";
                     l1 = [];
                 } else {
-                    if (char_element.style.backgroundColor == "antiquewhite"){
+                    if (char_element.style.backgroundColor === "antiquewhite"){
                         delete_pair(char);
                     }
                     l2 = char;
@@ -118,7 +118,7 @@ function show_cookies(){
     cookies = document.cookie.split(';');
     cookies.forEach(cookie => {
         const [name, value] = cookie.split('=');
-        // if (name == 'rotor-pos'){
+        // if (name === 'rotor-pos'){
         //     rotor_pos = value;
         // }
         console.log(name, value)
@@ -169,7 +169,7 @@ function delete_pair(char){
 async function handle_input(){
     handling_active = true;
 
-    if (ciphertext.innerHTML == "Ciphertext Shows Up Here"){
+    if (ciphertext.innerHTML === "Ciphertext Shows Up Here"){
         ciphertext.innerHTML = "";
     }
 
@@ -197,7 +197,7 @@ async function handle_input(){
     
     handling_active = false;
     cookify_rotor_pos();
-    if (ciphertext.innerHTML == ""){
+    if (ciphertext.innerHTML === ""){
         ciphertext.innerHTML = "Ciphertext Shows Up Here";
     }
 }
@@ -215,15 +215,18 @@ function apply_plugboard(char){
 }
 
 function rotors_used(i){
-    return document.getElementById(`rotor_num_${i}`).value;
+    // console.log(i, parseInt(document.getElementById(`rotor_num_${i}`).value));
+    return parseInt(document.getElementById(`rotor_num_${i}`).value);
 }
 
 function rotate_rotors(){
     rotor_pos[rotors_used(0)] = (rotor_pos[rotors_used(0)]+1)%26;
     for (var i = 1; i<num_rotors.value ; i++){
         rotor_num = rotors_used(i)
-        if (String.fromCharCode(rotors_used(i-1)+65) in ROTORS[rotors_used(i-1)]['notches']){
+        if (ROTORS[rotors_used(i-1)]['notches'].includes(String.fromCharCode(rotor_pos[rotors_used(i-1)]+65))){
             rotor_pos[rotor_num] = (rotor_pos[rotor_num]+1)%26;
+        } else {
+            break;
         }
     }
 }
@@ -238,7 +241,7 @@ function apply_rotor(rotor_num, char){
 function apply_reversed_rotor(rotor_num, char){
     shifted_char = String.fromCharCode(((char.charCodeAt(0)+rotor_pos[rotor_num])-65)%26+65);
     for (var i = 0; i<26; i++){
-        if (shifted_char == ROTORS[rotor_num]['alphabet'][i]){
+        if (shifted_char === ROTORS[rotor_num]['alphabet'][i]){
             corr_letter = String.fromCharCode(i+65);
         }
     }
