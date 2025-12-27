@@ -35,9 +35,9 @@ num_rotors.value = 3;
 for (let i=0; i<num_rotors.value; i++){
     choose_rotors.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
 }
-
-
-
+    
+    
+    
 window.addEventListener('load', function(){
     plugboard_canvas.width = plugboard_wrapper.clientWidth;
     plugboard_canvas.height = plugboard_wrapper.clientHeight;
@@ -62,6 +62,7 @@ plaintext.addEventListener(
         if (!handling_active){
             handle_input();
         }
+        cookify_rotor_pos();
     }
 );
 
@@ -105,6 +106,25 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
     }
 });
 
+function cookify_rotor_pos(){
+    var expiration_date = new Date();
+    expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+    document.cookie = `rotor-pos=${JSON.stringify(rotor_pos)}; path=/ expires=${expiration_date.toUTCString()}`;
+    console.log("cookified");
+    show_cookies()
+    console.log(rotor_pos)
+}
+
+function show_cookies(){
+    cookies = document.cookie.split(';');
+    cookies.forEach(cookie => {
+        const [name, value] = cookie.split('=');
+        // if (name == 'rotor-pos'){
+        //     rotor_pos = value;
+        // }
+        console.log(name, value)
+    });
+}
 
 function distance(char, x, y){
     return ((letter_pos(char)[0]-x)**2 + (letter_pos(char)[1]-y)**2)**0.5;
@@ -164,7 +184,7 @@ async function handle_input(){
         idx++;
         encrypted_char = encrypt(char);
         ciphertext.innerHTML += encrypted_char;
-    
+        
         if (65 <= encrypted_char.charCodeAt(0) && encrypted_char.charCodeAt(0) <= 90){
             document.getElementById(encrypted_char).style.backgroundColor = "yellow";
             document.getElementById(encrypted_char).style.color = "black";
@@ -175,7 +195,7 @@ async function handle_input(){
             await sleep(sleep_time);
         }
     }
-
+    
     handling_active = false;
     if (ciphertext.innerHTML == ""){
         ciphertext.innerHTML = "Ciphertext Shows Up Here";
