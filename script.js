@@ -115,6 +115,7 @@ function cookify_rotor_pos(){
 function reset_rotor_cookie(){
     document.cookie = "rotor-pos=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    alert("Rotors Reset!");
 }
 function get_rotor_cookie(){
     cookies = document.cookie.split(';');

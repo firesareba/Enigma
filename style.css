@@ -111,3 +111,10 @@ p{
 strong {
     font-size: 20px;
 }
+
+button {
+    color: black;    
+    background-color: antiquewhite;
+    border: none;
+    border-radius: 10px;
+}
