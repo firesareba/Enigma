@@ -62,7 +62,6 @@ plaintext.addEventListener(
         if (!handling_active){
             handle_input();
         }
-        cookify_rotor_pos();
     }
 );
 
@@ -109,7 +108,7 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
 function cookify_rotor_pos(){
     var expiration_date = new Date();
     expiration_date.setFullYear(expiration_date.getFullYear() + 1);
-    document.cookie = `rotor-pos=${JSON.stringify(rotor_pos)}; path=/ expires=${expiration_date.toUTCString()}`;
+    document.cookie = `rotor-pos=${JSON.stringify(rotor_pos)}; path=/; expires=${expiration_date.toUTCString()}`;
     console.log("cookified");
     show_cookies()
     console.log(rotor_pos)
@@ -197,6 +196,7 @@ async function handle_input(){
     }
     
     handling_active = false;
+    cookify_rotor_pos();
     if (ciphertext.innerHTML == ""){
         ciphertext.innerHTML = "Ciphertext Shows Up Here";
     }
