@@ -35,6 +35,7 @@ num_rotors.value = 3;
 for (let i=0; i<num_rotors.value; i++){
     choose_rotors.innerHTML += `<input type="number" id="rotor_num_${i}" min="0" max="9" value="${i}"> `;
 }
+get_rotor_cookie();
     
     
     
@@ -108,20 +109,23 @@ plugboard_canvas.addEventListener('mousedown', function(e) {
 function cookify_rotor_pos(){
     var expiration_date = new Date();
     expiration_date.setFullYear(expiration_date.getFullYear() + 1);
-    document.cookie = `rotor-pos=${JSON.stringify(rotor_pos)}; path=/; expires=${expiration_date.toUTCString()}`;
-    console.log("cookified");
-    show_cookies()
-    console.log(rotor_pos)
+    document.cookie = `rotor-pos=${rotor_pos[0]},${rotor_pos[1]},${rotor_pos[2]},${rotor_pos[3]},${rotor_pos[4]},${rotor_pos[5]},${rotor_pos[6]},${rotor_pos[7]},${rotor_pos[8]},${rotor_pos[9]}; path=/; expires=${expiration_date.toUTCString()}`;
 }
 
-function show_cookies(){
+function reset_rotor_cookie(){
+    document.cookie = "rotor-pos=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    rotor_pos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+}
+function get_rotor_cookie(){
     cookies = document.cookie.split(';');
     cookies.forEach(cookie => {
-        const [name, value] = cookie.split('=');
-        // if (name === 'rotor-pos'){
-        //     rotor_pos = value;
-        // }
-        console.log(name, value)
+        var [name, value] = cookie.split('=');
+        if (name === 'rotor-pos'){
+            value = value.split(',');
+            for (i=0; i<10; i++){
+                rotor_pos[i] = parseInt(value[i]);
+            }
+        }
     });
 }
 
@@ -215,7 +219,6 @@ function apply_plugboard(char){
 }
 
 function rotors_used(i){
-    // console.log(i, parseInt(document.getElementById(`rotor_num_${i}`).value));
     return parseInt(document.getElementById(`rotor_num_${i}`).value);
 }
 
